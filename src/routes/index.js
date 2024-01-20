@@ -1,5 +1,4 @@
 const express = require('express');
-const { formatDateTime } = require('../core/utils/date');
 const v1Routes = require('./v1');
 const HttpResponse = require('../core/response/httpResponse');
 
