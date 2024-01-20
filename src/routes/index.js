@@ -1,5 +1,4 @@
 const express = require('express');
-const { env } = require('../config/env');
 const { formatDateTime } = require('../core/utils/date');
 const v1Routes = require('./v1');
 const HttpResponse = require('../core/response/httpResponse');
@@ -31,7 +30,7 @@ route.get('/health', function serverHealth(req, res) {
         uptime: process.uptime(),
         message: 'Ok',
         timezone: 'ID',
-        date: formatDateTime(new Date()),
+        date: new Date().toISOString(),
         node: process.version,
         memory: process.memoryUsage(),
         platform: process.platform,
