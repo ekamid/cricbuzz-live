@@ -9,10 +9,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "/"
+            "dest": "./src/index.js"
         }
-    ],
-    "github": {
-        "enabled": false
-    }
+    ]
 }
