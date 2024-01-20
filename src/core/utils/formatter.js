@@ -1,12 +1,3 @@
-const { validate: uuidValidate } = require('uuid');
-const HttpResponse = require('../response/httpResponse');
-
-/**
- * @param {string} string
- * @returns {string}
- */
-
-
 function capitalizeFirstLetter(string) {
     const regex = /[-`~!@#$%^&*_|=?;:'",<>]/gi;
 
@@ -25,22 +16,8 @@ function capitalizeFirstLetter(string) {
     return result;
 }
 
-/**
- * @param {string} value
- * @param {import('../interface/ReqOptions').IReqOptions} options
- * @returns {string}
- */
-function validateUUID(value, options) {
 
-    if (!uuidValidate(value)) {
-        const message = "Incorrect uuid format";
-        throw new HttpResponse.badRequest(message);
-    }
-
-    return value;
-}
 
 module.exports = {
     capitalizeFirstLetter,
-    validateUUID,
 };
