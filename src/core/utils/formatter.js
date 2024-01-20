@@ -5,6 +5,8 @@ const HttpResponse = require('../response/httpResponse');
  * @param {string} string
  * @returns {string}
  */
+
+
 function capitalizeFirstLetter(string) {
     const regex = /[-`~!@#$%^&*_|=?;:'",<>]/gi;
 
