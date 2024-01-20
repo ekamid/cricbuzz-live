@@ -1,0 +1,13 @@
+/dist
+/node_modules
+/coverage
+/public/output
+/public/temp
+/public/uploads
+
+package-lock.json
+yarn-error.log
+.idea/
+.DS_Store
+
+.env
