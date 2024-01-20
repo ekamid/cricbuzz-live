@@ -13,12 +13,12 @@ route.get('/', function index(req, res) {
         source: 'https://github.com/ekamid/cricbuzz-live',
     };
 
-    if (env.NODE_ENV !== 'production') {
-        responseData = {
-            ...responseData,
-            docs: `${env.APP_BASE_URL}/v1/api-docs`,
-        };
-    }
+    // if (env.NODE_ENV !== 'production') {
+    //     responseData = {
+    //         ...responseData,
+    //         docs: `${env.APP_BASE_URL}/v1/api-docs`,
+    //     };
+    // }
 
     const httpResponse = HttpResponse.get(responseData);
     res.status(200).json(httpResponse);
