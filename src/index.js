@@ -1,14 +1,23 @@
-const express = require("express");
+const http = require('http');
+const { App } = require('./config/app');
+const { env } = require('./config/env');
+const { httpHandle } = require('./core/modules/httpHandle');
 
-const app = express();
+function bootstrap() {
+    const port = env.APP_PORT;
 
-app.get("/", (req, res) => {
-    res.send("Express on Vercel");
-});
+    // create express app
+    const app = new App().create();
 
-app.listen(5000, () => {
-    console.log("Running on port 5000.");
-});
+    const server = http.createServer(app);
 
-// Export the Express API
-module.exports = app;
+    // http handle
+    const { onError, onListening } = httpHandle(server, port);
+
+    // run server listen
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
+}
+
+bootstrap();
