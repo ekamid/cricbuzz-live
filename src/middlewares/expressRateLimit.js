@@ -1,5 +1,4 @@
 const { rateLimit } = require('express-rate-limit');
-const { ms } = require('expresso-core');
 const { env } = require("../config/env");
 const HttpResponse = require("../core/response/httpResponse");
 
@@ -8,7 +7,7 @@ const HttpResponse = require("../core/response/httpResponse");
  * @returns
  */
 const expressRateLimit = () => {
-    const delay = ms(env.RATE_DELAY);
+    const delay = 60 * 1000;
 
     return rateLimit({
         windowMs: delay, // 15 minutes

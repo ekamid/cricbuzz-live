@@ -37,7 +37,6 @@
     "express-async-handler": "^1.2.0",
     "express-rate-limit": "^7.1.5",
     "express-useragent": "^1.0.15",
-    "expresso-core": "^0.11.3",
     "helmet": "^7.1.0",
     "hpp": "^0.2.3",
     "request-ip": "^3.3.0",
