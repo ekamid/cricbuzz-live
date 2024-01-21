@@ -1,5 +1,4 @@
 const cheerio = require('cheerio');
-const prettier = require('prettier');
 const axios = require('axios');
 
 const { InternalServer } = require('../core/response/errorResponse');
@@ -50,23 +49,18 @@ const fetchScore = async (matchId) => {
 }
 
 
-const fetchMatches = async (type) => {
+const fetchMatches = async (endpoint, origin = "international") => {
     try {
-        const response = await axios.get(`${CRICBUZZ_URL}/cricket-match/live-scores`);
+
+        const URL = `${CRICBUZZ_URL}/cricket-match/${endpoint}`
+
+        const response = await axios.get(URL);
         const $ = cheerio.load(response.data, { xmlMode: true });
 
-        // Array to store match details
-        // Extract match details
         const matches = [];
 
-        // Determine the active match type
-        const activeMatchType = "international-tab"
-
-        // 0 ?
-        //     'international-tab' : 'domestic-tab';
-
         // Iterate through each match element of the active match type
-        $(`.cb-plyr-tbody[ng-show="active_match_type == '${activeMatchType}'"] .cb-col-100.cb-col.cb-schdl.cb-billing-plans-text`).each((index, matchElement) => {
+        $(`.cb-plyr-tbody[ng-show="active_match_type == '${origin}-tab'"] .cb-col-100.cb-col`).each((index, matchElement) => {
             // Extract match details
             const titleElement = $(matchElement).find('.cb-lv-scr-mtch-hdr a');
             const title = titleElement.text().trim();
@@ -78,40 +72,56 @@ const fetchMatches = async (type) => {
 
             const teams = [];
             $(matchElement).find('.cb-ovr-flo.cb-hmscg-tm-nm').each((i, teamElement) => {
-                teams.push($(teamElement).text());
+                const teamName = $(teamElement).text().trim();
+                const run = $(matchElement).find('.cb-ovr-flo').filter(':not(.cb-hmscg-tm-nm)').eq(i).text().trim();
+                const senitizeRun = run.split(teamName).join("")
+
+                const teamObject = {
+                    team: teamName,
+                    run: senitizeRun,
+                };
+
+                teams.push(teamObject);
             });
 
-            const run = $(matchElement).find('.cb-ovr-flo').filter(':not(.cb-hmscg-tm-nm)').text().trim();
-
-            const timeAndPlaceElement = $(matchElement).find('.text-gray');
-            const date = timeAndPlaceElement.find('span.ng-binding.ng-scope').text().trim();
-            const time = timeAndPlaceElement.find('span.ng-binding').eq(1).text().trim();
+            const timeAndPlaceElement = $(matchElement).find('div.text-gray');
+            const date = timeAndPlaceElement.find('span').eq(0).text().trim();
+            const time = timeAndPlaceElement.find('span').eq(2).text().trim();
             const place = timeAndPlaceElement.find('span.text-gray').text().trim();
+
+            const overViewIfLive = $(matchElement).find(".cb-text-live").text().trim();
+            const overViewIfComplete = $(matchElement).find(".cb-text-complete").text().trim();
 
             // Create an object for the match
             const matchObject = {
+                id: matchId,
                 title,
-                matchId,
-                run,
                 teams,
                 timeAndPlace: {
                     date,
                     time,
                     place,
                 },
+                overview: overViewIfLive || overViewIfComplete
             };
 
+
+
             // Categorize matches based on type
-            matches.push(matchObject)
+            if (matchId && title.length) {
+                const matchIdExist = matches.filter(match => match.id === matchId);
+                if (!matchIdExist.length) {
+                    matches.push(matchObject)
+                }
+            }
         });
 
 
         return {
             matches
         }
-    } catch (e) {
-        console.log(e.message);
-        throw new InternalServer("Something went wrong")
+    } catch (error) {
+        throw new InternalServer(error.message)
     }
 }
 

@@ -24,7 +24,7 @@ class HttpResponse {
         return this.baseResponse({ message, ...dataResponse });
     }
 
-    static deleted(dataResponse, options) {
+    static deleted(dataResponse) {
         const message = "Data deleted successfully"
         return this.baseResponse({ message, ...dataResponse });
     }
