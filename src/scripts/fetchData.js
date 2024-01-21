@@ -1,4 +1,5 @@
 const cheerio = require('cheerio');
+const prettier = require('prettier');
 const axios = require('axios');
 
 const { InternalServer } = require('../core/response/errorResponse');
@@ -48,6 +49,81 @@ const fetchScore = async (matchId) => {
     }
 }
 
+
+const fetchMatches = async (type) => {
+    try {
+        const response = await axios.get(`${CRICBUZZ_URL}/cricket-match/live-scores`);
+        const $ = cheerio.load(response.data, { xmlMode: true });
+
+        // Array to store match details
+        // Extract match details
+        const matches = [];
+
+        const domesticMatches = [];
+        const internationalMatches = [];
+
+        // Determine the active match type
+        const activeMatchType = "international-tab"
+
+        // 0 ?
+        //     'international-tab' : 'domestic-tab';
+
+        // Iterate through each match element of the active match type
+        $(`.cb-plyr-tbody[ng-show="active_match_type == '${activeMatchType}'"] .cb-col-100.cb-col.cb-schdl.cb-billing-plans-text`).each((index, matchElement) => {
+            // Extract match details
+            const titleElement = $(matchElement).find('.cb-lv-scr-mtch-hdr a');
+            const title = titleElement.text().trim();
+
+            // Check if titleElement has an href attribute
+            const hrefAttribute = titleElement.attr('href');
+            const matchId = hrefAttribute ? hrefAttribute.match(/\/(\d+)\//)[1] : null; // Extracting match ID from href if available
+
+
+            const teams = [];
+            $(matchElement).find('.cb-ovr-flo.cb-hmscg-tm-nm').each((i, teamElement) => {
+                teams.push($(teamElement).text());
+            });
+
+            const run = $(matchElement).find('.cb-ovr-flo').filter(':not(.cb-hmscg-tm-nm)').text().trim();
+
+            const timeAndPlaceElement = $(matchElement).find('.text-gray');
+            const date = timeAndPlaceElement.find('span.ng-binding.ng-scope').text().trim();
+            const time = timeAndPlaceElement.find('span.ng-binding').eq(1).text().trim();
+            const place = timeAndPlaceElement.find('span.text-gray').text().trim();
+
+            // Create an object for the match
+            const matchObject = {
+                title,
+                matchId,
+                run,
+                teams,
+                timeAndPlace: {
+                    date,
+                    time,
+                    place,
+                },
+            };
+
+            // Categorize matches based on type
+            if (activeMatchType === 'international-tab') {
+                internationalMatches.push(matchObject);
+            } else {
+                domesticMatches.push(matchObject);
+            }
+        });
+
+
+        return {
+            domesticMatches,
+            internationalMatches
+        }
+    } catch (e) {
+        console.log(e.message);
+        throw new InternalServer("Something went wrong")
+    }
+}
+
 module.exports = {
-    fetchScore
+    fetchScore,
+    fetchMatches
 }

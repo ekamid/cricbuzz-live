@@ -2,12 +2,16 @@
 const asyncHandler = require("express-async-handler");
 const route = require('../routes/v1');
 const HttpResponse = require('../core/response/httpResponse');
-const { fetchScore } = require("../scripts/fetchData");
+const { fetchScore, fetchMatches } = require("../scripts/fetchData");
 
 route.get(
-    '/matches',
+    '/matches/:type',
     asyncHandler(async function getMatches(req, res) {
-        const httpResponse = HttpResponse.get({ message: "Matches data successfull retrived" });
+        const { type } = req.params;
+
+        const matches = await fetchMatches(type)
+
+        const httpResponse = HttpResponse.get({ message: "Matches data successfull retrived", data: matches });
         res.status(200).json(httpResponse);
     })
 );
