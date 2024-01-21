@@ -1,0 +1,335 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Cricbuzz Live",
+        "version": "1.0.0",
+        "description": "Documentation for your Cricbuzz live data fetching API"
+    },
+    "paths": {
+        "/v1/score/{matchId}": {
+            "get": {
+                "summary": "Get match score",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "matchId",
+                        "required": true,
+                        "description": "The ID of the match",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Matches data successfully retrieved",
+                                    "data": {
+                                        "title": "MI Emirates vs Gulf Giants, 4th Match - Live Cricket Score",
+                                        "update": "Gulf Giants need 25 runs in 10 balls",
+                                        "liveScore": "GG 155/5 (18.2)",
+                                        "runRate": "{{suggest.tag}}",
+                                        "batsmanOne": "Karim Janat",
+                                        "batsmanOneRun": "0",
+                                        "batsmanOneBall": "(0)",
+                                        "batsmanOneSR": "0",
+                                        "batsmanTwo": "Shimron Hetmyer",
+                                        "batsmanTwoRun": "15",
+                                        "batsmanTwoBall": "(16)",
+                                        "batsmanTwoSR": "93.75",
+                                        "bowlerOne": "Fazalhaq Farooqi",
+                                        "bowlerOneOver": "15",
+                                        "bowlerOneRun": "16",
+                                        "bowlerOneWickets": "0",
+                                        "bowlerOneEconomy": "93.75",
+                                        "bowlerTwo": "Trent Boult",
+                                        "bowlerTwoOver": "O",
+                                        "bowlerTwoRun": "R",
+                                        "bowlerTwoWicket": "W",
+                                        "bowlerTwoEconomy": "ECO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/matches/live": {
+            "get": {
+                "summary": "Get live matches",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "type",
+                        "description": "The type of matches (international(default), league, domestic, women)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Matches data successfully retrieved",
+                                    "data": {
+                                        "matches": [
+                                            {
+                                                "id": "86529",
+                                                "title": "Sri Lanka U19 vs Zimbabwe U19,",
+                                                "teams": [
+                                                    {
+                                                        "team": "SLU1..",
+                                                        "run": "204 (48.3 Ovs)"
+                                                    },
+                                                    {
+                                                        "team": "ZIMU..",
+                                                        "run": "204 (48.3 Ovs)"
+                                                    }
+                                                ],
+                                                "timeAndPlace": {
+                                                    "date": "Today",
+                                                    "time": "&nbsp;•&nbsp;",
+                                                    "place": "at Kimberley, Diamond Oval"
+                                                },
+                                                "overview": "Sri Lanka U19 won by 39 runs (DLS method)"
+                                            },
+                                            {
+                                                "id": "86536",
+                                                "title": "New Zealand U19 vs Nepal U19,",
+                                                "teams": [
+                                                    {
+                                                        "team": "NZU1..",
+                                                        "run": "302-8 (50 Ovs)"
+                                                    },
+                                                    {
+                                                        "team": "NPLU..",
+                                                        "run": "302-8 (50 Ovs)"
+                                                    }
+                                                ],
+                                                "timeAndPlace": {
+                                                    "date": "Today",
+                                                    "time": "&nbsp;•&nbsp;",
+                                                    "place": "at East London, Buffalo Park"
+                                                },
+                                                "overview": "New Zealand U19 won by 64 runs"
+                                            },
+                                            {
+                                                "id": "74198",
+                                                "title": "Jharkhand vs Services,",
+                                                "teams": [
+                                                    {
+                                                        "team": "JHKD",
+                                                        "run": "316"
+                                                    },
+                                                    {
+                                                        "team": "SER",
+                                                        "run": "316"
+                                                    }
+                                                ],
+                                                "timeAndPlace": {
+                                                    "date": "Today",
+                                                    "time": "-",
+                                                    "place": "at Delhi, Palam A Stadium"
+                                                },
+                                                "overview": "Day 3: Stumps - Services trail by 1 run"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/matches/recent": {
+            "get": {
+                "summary": "Get recent matches",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "type",
+                        "description": "The type of matches (international(default), league, domestic, women)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Matches data successfully retrieved",
+                                    "data": {
+                                        "matches": [
+                                            {
+                                                "id": "86529",
+                                                "title": "Sri Lanka U19 vs Zimbabwe U19,",
+                                                "teams": [
+                                                    {
+                                                        "team": "SLU1..",
+                                                        "run": "204 (48.3 Ovs)"
+                                                    },
+                                                    {
+                                                        "team": "ZIMU..",
+                                                        "run": "204 (48.3 Ovs)"
+                                                    }
+                                                ],
+                                                "timeAndPlace": {
+                                                    "date": "Today",
+                                                    "time": "&nbsp;•&nbsp;",
+                                                    "place": "at Kimberley, Diamond Oval"
+                                                },
+                                                "overview": "Sri Lanka U19 won by 39 runs (DLS method)"
+                                            },
+                                            {
+                                                "id": "86536",
+                                                "title": "New Zealand U19 vs Nepal U19,",
+                                                "teams": [
+                                                    {
+                                                        "team": "NZU1..",
+                                                        "run": "302-8 (50 Ovs)"
+                                                    },
+                                                    {
+                                                        "team": "NPLU..",
+                                                        "run": "302-8 (50 Ovs)"
+                                                    }
+                                                ],
+                                                "timeAndPlace": {
+                                                    "date": "Today",
+                                                    "time": "&nbsp;•&nbsp;",
+                                                    "place": "at East London, Buffalo Park"
+                                                },
+                                                "overview": "New Zealand U19 won by 64 runs"
+                                            },
+                                            {
+                                                "id": "74198",
+                                                "title": "Jharkhand vs Services,",
+                                                "teams": [
+                                                    {
+                                                        "team": "JHKD",
+                                                        "run": "316"
+                                                    },
+                                                    {
+                                                        "team": "SER",
+                                                        "run": "316"
+                                                    }
+                                                ],
+                                                "timeAndPlace": {
+                                                    "date": "Today",
+                                                    "time": "-",
+                                                    "place": "at Delhi, Palam A Stadium"
+                                                },
+                                                "overview": "Day 3: Stumps - Services trail by 1 run"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/matches/upcoming": {
+            "get": {
+                "summary": "Get upcoming matches",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "type",
+                        "description": "The type of matches (international(default), league, domestic, women)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Matches data successfully retrieved",
+                                    "data": {
+                                        "matches": [
+                                            {
+                                                "id": "86529",
+                                                "title": "Sri Lanka U19 vs Zimbabwe U19,",
+                                                "teams": [
+                                                    {
+                                                        "team": "SLU1..",
+                                                        "run": "204 (48.3 Ovs)"
+                                                    },
+                                                    {
+                                                        "team": "ZIMU..",
+                                                        "run": "204 (48.3 Ovs)"
+                                                    }
+                                                ],
+                                                "timeAndPlace": {
+                                                    "date": "Today",
+                                                    "time": "&nbsp;•&nbsp;",
+                                                    "place": "at Kimberley, Diamond Oval"
+                                                },
+                                                "overview": "Sri Lanka U19 won by 39 runs (DLS method)"
+                                            },
+                                            {
+                                                "id": "86536",
+                                                "title": "New Zealand U19 vs Nepal U19,",
+                                                "teams": [
+                                                    {
+                                                        "team": "NZU1..",
+                                                        "run": "302-8 (50 Ovs)"
+                                                    },
+                                                    {
+                                                        "team": "NPLU..",
+                                                        "run": "302-8 (50 Ovs)"
+                                                    }
+                                                ],
+                                                "timeAndPlace": {
+                                                    "date": "Today",
+                                                    "time": "&nbsp;•&nbsp;",
+                                                    "place": "at East London, Buffalo Park"
+                                                },
+                                                "overview": "New Zealand U19 won by 64 runs"
+                                            },
+                                            {
+                                                "id": "74198",
+                                                "title": "Jharkhand vs Services,",
+                                                "teams": [
+                                                    {
+                                                        "team": "JHKD",
+                                                        "run": "316"
+                                                    },
+                                                    {
+                                                        "team": "SER",
+                                                        "run": "316"
+                                                    }
+                                                ],
+                                                "timeAndPlace": {
+                                                    "date": "Today",
+                                                    "time": "-",
+                                                    "place": "at Delhi, Palam A Stadium"
+                                                },
+                                                "overview": "Day 3: Stumps - Services trail by 1 run"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -5,7 +5,8 @@ const helmet = require('helmet');
 const hpp = require('hpp');
 const path = require('path');
 const requestIp = require('request-ip');
-const swaggerUI = require('swagger-ui-express');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../../docs/swagger.json');
 const { expressRateLimit } = require('../middlewares/expressRateLimit');
 const { expressUserAgent } = require('../middlewares/expressUserAgent');
 const HttpResponse = require('../core/response/httpResponse');
@@ -24,11 +25,7 @@ class App {
         this._port = env.APP_PORT;
 
         this._plugins();
-        // docs swagger disable for production mode
-        // if (env.NODE_ENV !== 'production') {
-        //     // this._swagger();
-        // }
-
+        this._swagger();
         this._routes();
     }
 
@@ -50,21 +47,12 @@ class App {
         this._app.use(expressUserAgent());
     }
 
-    // /**
-    //  * Initialize Swagger
-    //  */
-    // _swagger() {
-    //     this._app.get('/v1/api-docs.json', (req, res) => {
-    //         res.setHeader('Content-Type', 'application/json');
-    //         res.send(swaggerSpec);
-    //     });
-
-    //     this._app.use('/v1/api-docs', swaggerUI.serve);
-    //     this._app.get(
-    //         '/v1/api-docs',
-    //         swaggerUI.setup(swaggerSpec, optionsSwaggerUI)
-    //     );
-    // }
+    /**
+    * Initialize Swagger
+    */
+    _swagger() {
+        this._app.use('/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    }
 
     /**
      * Initialize Routes
