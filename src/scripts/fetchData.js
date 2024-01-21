@@ -59,9 +59,6 @@ const fetchMatches = async (type) => {
         // Extract match details
         const matches = [];
 
-        const domesticMatches = [];
-        const internationalMatches = [];
-
         // Determine the active match type
         const activeMatchType = "international-tab"
 
@@ -105,17 +102,12 @@ const fetchMatches = async (type) => {
             };
 
             // Categorize matches based on type
-            if (activeMatchType === 'international-tab') {
-                internationalMatches.push(matchObject);
-            } else {
-                domesticMatches.push(matchObject);
-            }
+            matches.push(matchObject)
         });
 
 
         return {
-            domesticMatches,
-            internationalMatches
+            matches
         }
     } catch (e) {
         console.log(e.message);
